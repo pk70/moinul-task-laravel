@@ -37,15 +37,16 @@ services:
 
   #MySQL Service
   db:
-    image: mysql/mysql-server:8.0
-    container_name: db
+    image: mysql:latest
+    container_name: dbmysql
     restart: unless-stopped
     tty: true
     ports:
       - "3307:3306"
     environment:
-      MYSQL_DATABASE: mybd
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_PASSWORD: sajib
+      MYSQL_ROOT_PASSWORD: sajib
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
