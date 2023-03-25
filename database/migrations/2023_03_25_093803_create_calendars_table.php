@@ -11,9 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('calendar', function (Blueprint $table) {
+        Schema::create('calendars', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('id_property')->unsigned();
+            $table->timestamp('date')->nullable();
+            $table->decimal('price',$precision = 8, $scale = 2)->nullable();
+            $table->integer('minNight')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
+            $table->foreign('id_property')->references('id')->on('properties')->onDelete('cascade');
+
         });
     }
 

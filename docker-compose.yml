@@ -54,7 +54,7 @@ services:
       - ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - app-network
-
+  
 #Docker Networks
 networks:
   app-network:

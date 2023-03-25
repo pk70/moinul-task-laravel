@@ -16,6 +16,7 @@ ENV DEBIAN_FRONTEND noninteractive
 #
 # Installing tools and PHP extentions using "apt", "docker-php", "pecl",
 #
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install "curl", "libmemcached-dev", "libpq-dev", "libjpeg-dev",
 #         "libpng-dev", "libfreetype6-dev", "libssl-dev", "libmcrypt-dev",

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Customers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use App\Http\Resources\CustomersResource;
+use App\Jobs\PropertiesProcess;
 use Illuminate\Support\Facades\Validator;
 
 class CustomersController extends Controller
