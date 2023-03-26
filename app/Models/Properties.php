@@ -22,4 +22,14 @@ class Properties extends Model
     ];
 
     public $timestamps=true;
+
+    public function getAddressAttribute($value)
+    {
+        return unserialize($value);
+    }
+
+    public function setAddressAttribute($value)
+    {
+        $this->attributes['address'] = serialize($value);
+    }
 }

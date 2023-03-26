@@ -2,15 +2,16 @@
 
 namespace App\Jobs;
 
+use Carbon\Carbon;
 use App\Models\Calendar;
 use App\Models\Calendars;
 use App\Models\Properties;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 
 class PropertiesProcess implements ShouldQueue
 {
@@ -21,12 +22,24 @@ class PropertiesProcess implements ShouldQueue
    */
   public $propertydata;
   public $authtoken;
+  public $addressObject;
   public function __construct($token)
   {
     $this->authtoken = $token;
     $client = new \GuzzleHttp\Client();
+    $address = [
+      "full" => "6918 E Colfax Ave, Denver, CO 80220, USA",
+      "lng" => -104.9076316,
+      "lat" => 39.7398381,
+      "street" => "East Colfax Avenue 6918",
+      "city" => "Denver",
+      "country" => "United States",
+      "zipcode" => "80220",
+      "state" => "Colorado"
+    ];
+    $this->addressObject = json_encode((object)$address);
 
-    $response = $client->request('GET', 'https://open-api-sandbox.guesty.com/v1/listings?fields=_id&active=true&listed=true&limit=25', [
+    $response = $client->request('GET', 'https://open-api-sandbox.guesty.com/v1/listings?fields=632fb8c0679d6c005e81cbaa titlesample ' . $this->addressObject . '&active=true&listed=true&limit=25', [
       'headers' => [
         'accept' => 'application/json',
         'authorization' => 'Bearer ' . $this->authtoken . '',
@@ -55,7 +68,7 @@ class PropertiesProcess implements ShouldQueue
       );
       $client = new \GuzzleHttp\Client();
 
-      $response = $client->request('GET', 'https://open-api-sandbox.guesty.com/v1/availability-pricing/api/calendar/listings/' . $properties->listingId . '?startDate=2022-09-16&endDate=2022-09-17&includeAllotment=false', [
+      $response = $client->request('GET', 'https://open-api-sandbox.guesty.com/v1/availability-pricing/api/calendar/listings/' . $properties->listingId . '?startDate=' . Carbon::now()->format("Y-m-d") . '&endDate=' . Carbon::now()->addMonth()->format("Y-m-d") . '&includeAllotment=false', [
         'headers' => [
           'accept' => 'application/json',
           'authorization' => 'Bearer ' . $this->authtoken . '',
