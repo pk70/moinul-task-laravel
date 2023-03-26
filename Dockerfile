@@ -16,8 +16,6 @@ ENV DEBIAN_FRONTEND noninteractive
 #
 # Installing tools and PHP extentions using "apt", "docker-php", "pecl",
 #
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 # Install "curl", "libmemcached-dev", "libpq-dev", "libjpeg-dev",
 #         "libpng-dev", "libfreetype6-dev", "libssl-dev", "libmcrypt-dev",
 RUN set -eux; \
@@ -55,7 +53,6 @@ RUN set -eux; \
 # Add user for laravel application
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
-
 # Copy existing application directory contents
 COPY . /var/www
 
@@ -68,3 +65,8 @@ USER www
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]
+# Install Composer
+# RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
+# RUN HASH=`curl -sS https://composer.github.io/installer.sig`
+# RUN php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+# RUN php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer

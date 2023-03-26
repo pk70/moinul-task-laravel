@@ -21,7 +21,7 @@
 ### How to operate the project/software
 - For customer api http://localhost/api/customers
 - For starting queue job open a terminal and RUN `docker-compose exec app php artisan queue:work`
-- For starting specific job open another terminal and RUN `docker-compose exec app php php artisan job:dispatch PropertiesProcess authtoken`(here auth token is your token which is string)
+- For starting specific job open another terminal and RUN `docker-compose exec app php artisan job:dispatch PropertiesProcess authtoken`(here auth token is your token which is string)
 
 ### Technology used
 - Laravel framework version 10

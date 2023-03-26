@@ -39,9 +39,9 @@ class CustomersController extends Controller
             'platform' => $request->platform,
             'platform_credentials' => $request->platform_credentials,
             'status' => $request->status,
-          ]);
-    
-          return new CustomersResource($customers);
+        ]);
+
+        return new CustomersResource($customers);
     }
 
     /**
@@ -49,10 +49,10 @@ class CustomersController extends Controller
      */
     public function show(string $id)
     {
-        if(empty($id)){
+        if (empty($id)) {
             return response()->json(['error' => 'Customer id not found'], 403);
         }
-        return CustomersResource::collection(Customers::where('id',$id)->get());
+        return CustomersResource::collection(Customers::where('id', $id)->get());
     }
 
     /**
@@ -60,7 +60,7 @@ class CustomersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        if(empty($id)){
+        if (empty($id)) {
             return response()->json(['error' => 'Customer id not found'], 403);
         }
         $validator = Validator::make($request->all(), [
@@ -70,14 +70,14 @@ class CustomersController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 403);
         }
-        $customers = Customers::where('id',$id)
-        ->update([
-            'client_id' => $request->client_id,
-            'client_secret' => $request->client_secret,
-            'status' => $request->status,
-          ]);
-    
-          return new CustomersResource(Customers::where('id',$id)->get());
+        $customers = Customers::where('id', $id)
+            ->update([
+                'client_id' => $request->client_id,
+                'client_secret' => $request->client_secret,
+                'status' => $request->status,
+            ]);
+
+        return new CustomersResource(Customers::where('id', $id)->get());
     }
 
     /**
